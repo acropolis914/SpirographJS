@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 
 <head>
   <title>SpirographJS by Paul</title>
@@ -19,14 +19,20 @@
         nacocoiyocc
       </p>
       <div class="slidecontainer">
-        <input type="range" min="0" max="1000" value="50" class="slider" id="myRange" />
-        <p>Ratio: <span id="demo"></span></p>
+        <input type="range" min="0" max="1000" value="800" class="slider" id="myRange" />
+        <p>Ratio: <span id="demo">Play with the sliders!</span></p>
 
-        <input type="range" min="1" max="1000" value="100" class="slider" id="speed_slider" />
-        <p>Tetha Change: <span id="speed_output_text"></span></p>
+        <input type="range" min="1" max="1000" value="820" class="slider" id="speed_slider" />
+        <p>Tetha Change: <span id="speed_output_text">820</span></p>
+
+        <input type="range" min="1" max="10" value="2" class="slider" id="revolution_slider" />
+        <p>Revolutions: <span id="revolution_output_text">2</span></p>
 
         <input type="range" min="0" max="50" value="0" class="slider" id="FPS_slider" />
-        <p>Delay: <span id="FPS_output_text">0</span>miliseconds</p>
+        <p>Delay: <span id="FPS_output_text">0</span> miliseconds</p>
+
+        <input type="range" min="100" max="300" value="200" class="slider" id="big_circle_slider" />
+        <p>Bigger Circle <span id="big_output_text">200</span> pixels</p>
       </div>
     </div>
 
@@ -48,6 +54,22 @@
   var speed_output_text = document.getElementById("speed_output_text");
   var fps_slider = document.getElementById("FPS_slider");
   var fps_output_text = document.getElementById("FPS_output_text");
+  var revolution_sliderx = document.getElementById("revolution_slider");
+  var revolution_output_textx = document.getElementById("revolution_output_text");
+  var bigc_slider = document.getElementById("big_circle_slider");
+  var bigc_output_text = document.getElementById("big_output_text");
+
+  context.imageSmoothingEnabled = true;
+  // context.translate(0.5, 0.5);
+  context.shadowOffsetX = 0
+  context.shadowOffsetY = 0
+  context.shadowBlur = 1
+  context.shadowColor = 'black'
+  context.imageSmoothingQuality = "high"
+  context.lineCap = "round"
+  context.lineJoin = "round"
+
+
 
   slider.oninput = function () {
     output.innerHTML = this.value;
@@ -66,19 +88,30 @@
     delay = this.value;
   };
 
+  revolution_sliderx.oninput = function () {
+    revolution_output_text.innerHTML = this.value;
+    revolutions = this.value;
+  };
+
+  bigc_slider.oninput = function () {
+    bigc_output_text.innerHTML = this.value;
+    circle_big_r = this.value;
+    main()
+  };
+
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  var ratio = slider.value;
+  var ratio = 800;
   var circle_big_r = 200;
   let circle_small_r = 90;
   var centerx = canvas.width / 2;
   var centery = canvas.height / 2;
   var starting_point = null;
-  var revolutions = 3;
+  var revolutions = 2;
   var theta = 0;
-  var speed = theta_slider.value/100000;
+  var speed = 820/100000;
   var delay = 0
 
   function ready() {
@@ -110,9 +143,9 @@
     context.stroke();
 
     context.beginPath();
-    var x = centerx + circle_big_r + circle_small_r;
-    var y = centery;
-    context.moveTo(x, y);
+    // var x = centerx + circle_big_r + circle_small_r;
+    // var y = centery;
+    // context.moveTo(x, y);
     context.strokeStyle = "hsl(200, 40%, 50%)";
     context.lineWidth = 1;
   }
@@ -125,7 +158,6 @@
       context.stroke();
       theta += speed;
       setTimeout(() => {requestAnimationFrame(drawSpirograph);}, delay);
-      console.log(delay);
     }
     
   }
@@ -134,4 +166,6 @@
     ready();
     drawSpirograph();
   }
+
+  main()
 </script>
