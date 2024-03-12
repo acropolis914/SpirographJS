@@ -1,50 +1,75 @@
 <html>
-  <head>
-    <title>SpirographJS by Paul</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body
-    style="
+
+<head>
+  <title>SpirographJS by Paul</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body style="
       background-color: antiquewhite;
       font-family: 'Courier New', Courier, monospace;
       margin: auto;
       padding: 5%;
-    "
-  >
-    <h1>SpirographJS by Paul</h1>
-    <p>
-      Di ko rin alam kung bakit pero putangina bat ang saya ng math na
-      nacocoiyocc
-    </p>
-    <canvas id="spirographCanvas" width="1000" height="1000"></canvas>
-    <div class="slidecontainer">
-      <input
-        type="range"
-        min="0"
-        max="1000"
-        value="50"
-        class="slider"
-        id="myRange"
-      />
-      <p>Value: <span id="demo"></span></p>
+    ">
+  <div class="row">
+    <div class="column left">
+      <h1>SpirographJS by Paul</h1>
+      <p>
+        Di ko rin alam kung bakit pero putangina bat ang saya ng math na
+        nacocoiyocc
+      </p>
+      <div class="slidecontainer">
+        <input type="range" min="0" max="1000" value="50" class="slider" id="myRange" />
+        <p>Ratio: <span id="demo"></span></p>
+
+        <input type="range" min="1" max="1000" value="100" class="slider" id="speed_slider" />
+        <p>Tetha Change: <span id="speed_output_text"></span></p>
+
+        <input type="range" min="0" max="50" value="0" class="slider" id="FPS_slider" />
+        <p>Delay: <span id="FPS_output_text">0</span>miliseconds</p>
+      </div>
     </div>
-  </body>
+
+    <div class="column right">
+      <canvas id="spirographCanvas" width="100" height="100"></canvas>
+    </div>
+
+  </div>
+</body>
+
 </html>
 
 <script>
+  var canvas = document.getElementById("spirographCanvas");
+  var context = canvas.getContext("2d");
   var slider = document.getElementById("myRange");
   var output = document.getElementById("demo");
-  output.innerHTML = slider.value; // Display the default slider value
+  var theta_slider = document.getElementById("speed_slider");
+  var speed_output_text = document.getElementById("speed_output_text");
+  var fps_slider = document.getElementById("FPS_slider");
+  var fps_output_text = document.getElementById("FPS_output_text");
 
-  // Update the current slider value (each time you drag the slider handle)
   slider.oninput = function () {
     output.innerHTML = this.value;
     ratio = this.value;
     main();
   };
 
-  var canvas = document.getElementById("spirographCanvas");
-  var context = canvas.getContext("2d");
+  theta_slider.oninput = function () {
+    speed_output_text.innerHTML = this.value;
+    speed = this.value/100000;
+    main()
+  };
+
+  fps_slider.oninput = function () {
+    FPS_output_text.innerHTML = this.value;
+    delay = this.value;
+  };
+
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
   var ratio = slider.value;
   var circle_big_r = 200;
   let circle_small_r = 90;
@@ -53,22 +78,14 @@
   var starting_point = null;
   var revolutions = 3;
   var theta = 0;
+  var speed = theta_slider.value/100000;
+  var delay = 0
 
   function ready() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    canvas = canvas
-    context = context
-    ratio = slider.value;
-    circle_big_r = circle_big_r
-    circle_small_r = circle_small_r
-    centerx = canvas.width / 2;
-    centery = canvas.height / 2;
-    starting_point = null;
-    revolutions = revolutions;
-    theta = 0;
-
+    theta = 0
     context.beginPath();
-    context.lineWidth = 2;
+    context.lineWidth = 1;
     context.strokeStyle = "grey";
     circle_big = context.arc(
       centerx,
@@ -106,9 +123,11 @@
       y = centery + Math.sin(theta) * circle_big_r + Math.sin(theta* ratio) * circle_small_r;
       context.lineTo(x, y);
       context.stroke();
-      theta += 0.01;
+      theta += speed;
+      setTimeout(() => {requestAnimationFrame(drawSpirograph);}, delay);
+      console.log(delay);
     }
-    setTimeout(() => {requestAnimationFrame(drawSpirograph);}, 0);
+    
   }
 
   function main() {
