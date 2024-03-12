@@ -40,7 +40,8 @@
     cursor: pointer; /* Cursor on hover */ 
     border-radius: 20%;
 }
-    
+
+p { word-break: break-all }
 
 * {
 box-sizing: border-box;
