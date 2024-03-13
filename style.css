@@ -1,6 +1,41 @@
+* {
+  box-sizing: border-box;
+  }
+
+  :root {
+    --light-bg-color: antiquewhite;
+    --dark-bg-color: #222;
+    --light-text-color: #1f1f1f;
+    --dark-text-color: #fff;
+  }
+
+@media (prefers-color-scheme: dark) {
+  /* Styles for dark mode */
+  body {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
+  }
+
+    /* Apply dark mode styles to other elements */
+    a,
+    h1,
+    h2,
+    h3,
+    p {
+      color: var(--dark-text-color);
+    }
+    
+    /* Invert any icons or images for better visibility */
+    .icon {
+      filter: invert(100%);
+    }
+  }
+
+
+
 .slidecontainer {
-    width: 100%; /* Width of the outside container */
     margin: 0%;
+    justify-content: space-around;
   }
   
   /* The slider itself */
@@ -14,7 +49,8 @@
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
     transition: opacity .2s;
-    margin: 0%;
+    margin: 1ch;
+    padding: 0%;
   }
   
   /* Mouse-over effects */
@@ -41,11 +77,10 @@
     border-radius: 20%;
 }
 
-p { word-break: break-all }
-
-* {
-box-sizing: border-box;
+p { word-break: break-all;
+  margin: 0
 }
+
 
 
 /* Create two unequal columns that floats next to each other */
@@ -77,3 +112,4 @@ canvas{
     transform: translate(-40%, -50%); 
     z-index: -1;              
 }
+
